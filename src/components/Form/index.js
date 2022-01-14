@@ -7,12 +7,19 @@ export default function From() {
 
 const [height, setHeight] = useState(null)
 const [weight, setWeight]= useState(null)
-const [messageImc, setMessageImc]= useState("Preencha o peso e altura")
+const [messageImc, setMessageImc]= useState(null)
 const [imc, setImc]= useState(null)
-const [textButton, setTextButton]= useState("Calcular")
+const [textButton, setTextButton]= useState(null)
+const [errorMessage, setErrorMessager] =useState(null)
 
 function imcCalculator(){
     return setImc((weight/(height*height)).toFixed(2))
+}
+
+function verificationImc(){
+    if(imc == null){
+        setErrorMessager("campo obrigatório*")
+    }
 }
 
 function ValidationImc(){
@@ -22,17 +29,20 @@ function ValidationImc(){
         setHeight(null)
         setMessageImc("Seu IMC é igual:")
         setTextButton("Calcular Novamente")
+        setErrorMessager(null)
         return
     }
+    verificationImc()
     setImc(null)
     setTextButton("Calcular")
-    setMessageImc("Preencha o peso e altura")
+    setMessageImc("Preencha o peso e altura")  
 }
 
     return(
         <View style={styles.formContext}>
             <View style={styles.form}>
                 <Text style={styles.formLabel}>Altura</Text>
+                <Text style={styles.errorMessage}>{errorMessage}</Text>
                 <TextInput
                     style={styles.input}
                     onChangeText={setHeight}
@@ -42,6 +52,7 @@ function ValidationImc(){
                 />
                 
                 <Text style={styles.formLabel}>Peso</Text>
+                <Text style={styles.errorMessage}>{errorMessage}</Text>
                 <TextInput
                     style={styles.input}
                     onChangeText={setWeight}
@@ -52,9 +63,10 @@ function ValidationImc(){
 
                 <TouchableOpacity
                     style={styles.buttonCalculator}
-                    onPress={() =>{ValidationImc()}}
+                    onPress={() => ValidationImc()}
+                    
                 >
-                    <Text style={styles.textButtonCalculator}>Calcular</Text>
+                    <Text style={styles.textButtonCalculator}>{textButton}</Text>
                 </TouchableOpacity>
                 
             </View>
