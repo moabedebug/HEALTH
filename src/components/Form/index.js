@@ -7,15 +7,15 @@ import {
     Vibration,
     Keyboard,
     Pressable,
-    FlatList,
+    FlatList
 } from 'react-native'
 import ResultImc from "../ResultImc"
 import styles from "./style"
 
-export default function Form() {
+export default function From(props) {
 
-const [height, setHeight] = useState(null)
-const [weight, setWeight]= useState(null)
+const [height, setHeight] = React.useState(null)
+const [weight, setWeight]= React.useState(null)
 const [messageImc, setMessageImc]= useState(null)
 const [imc, setImc]= useState(null)
 const [textButton, setTextButton]= useState("Calcular")
@@ -24,8 +24,8 @@ const [imcList, setImcList] = useState([])
 
 function imcCalculator(){
     let heightFormat = height.replace(",",".")
-    let totalImc = (weight/(heightFormat*heightFormat)).toFixed(2);
-    setImcList((arr) => [...arr,{id: new Date().getTime(), imc:totalImc}])
+    let totalImc = (weight/(heightFormat*heightFormat)).toFixed(2)
+    setImcList ((arr) => [...arr, {id: new Date().getTime(), imc:totalImc }])
     setImc(totalImc)
 }
 
@@ -37,6 +37,7 @@ function verificationImc(){
 }
 
 function ValidationImc(){
+    console.log(imcList);
     if(weight != null && height != null){
         imcCalculator()
         setWeight(null)
@@ -44,7 +45,8 @@ function ValidationImc(){
         setMessageImc("Seu IMC é igual:")
         setTextButton("Calcular Novamente")
         setErrorMessager(null)
-    }else {
+    }
+    else{
         verificationImc()
         setImc(null)
         setTextButton("Calcular")
@@ -54,8 +56,8 @@ function ValidationImc(){
 
     return(
         <View style={styles.formContext}>
-            { imc == null ? 
-            <Pressable onPress={Keyboard.dismiss} style={styles.form}>
+            {imc == null ? 
+                <Pressable onPress={Keyboard.dismiss} style={styles.form}>
                 <Text style={styles.formLabel}>Altura</Text>
                 <Text style={styles.errorMessage}>{errorMessage}</Text>
                 <TextInput
@@ -95,26 +97,24 @@ function ValidationImc(){
                 >
                     <Text style={styles.textButtonCalculator}>{textButton}</Text>
                 </TouchableOpacity>
-                <FlatList
-                    style={styles.listImcs}
-                    data={imcList.reverse()}    
-                    renderItem={({item}) => {
-                        return(
-                            <Text style={styles.resultImcItem}>
-                              <Text style={styles.textResultItemList}>Resultado IMC =</Text>
-                              {item.imc}
-                            </Text>    
-                        )
-                    }}
-                    keyExtractor={(item) => {
-                        item.id
-                    }}        
-                />
             </View>
-            
-                
             }
+            <FlatList
+                style={styles.listImcs}
+                showsVerticalScrollIndicator={false}
+                data={imcList.reverse()}
+                renderItem={({item}) => {
+                    return(
+                        <Text style={styles.resultImcItem}>
+                            <Text style={styles.textResultItemList}>Resultado IMC = </Text>
+                            {item.imc}
+                        </Text>
+                    )
+                }}  
+                keyExtractor={(item) => {
+                    item.id
+                }}          
+            />
         </View>
     )
 }
-

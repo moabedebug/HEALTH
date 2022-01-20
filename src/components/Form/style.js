@@ -62,19 +62,19 @@ const styles = StyleSheet.create({
         height: "50%",
     },
     listImcs: {
-        marginTop: 20,
-
+        marginTop: 20
     },
     resultImcItem: {
-        fontSize: 26,
         color: "red",
+        fontSize: 26,
         height: 50,
         width: "100%",
-        paddingRight: 20
+        paddingRight: 20,
+        fontWeight: "bold"
     },
-    textResultList:{
-        color: "red",
+    textResultItemList: {
         fontSize: 16,
+        fontWeight: "normal"
     }
 })
 
